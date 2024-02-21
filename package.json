@@ -1,0 +1,17 @@
+{
+  "name": "4stargram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "odh.js",
+  "scripts": {
+    "start": "node --env-file .env"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "mongodb": "^6.3.0"
+  },
+  "type": "module"
+}
