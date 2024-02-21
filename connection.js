@@ -1,11 +1,10 @@
-const { MongoClient } = require('mongodb');
+// const { MongoClient } = require('mongodb');
+import {MongoClient} from "mongodb";
 
 //const uri = process.env.DB_LOCAL_URL;
 const uri = process.env.DB_ATLAS_URL;
-
-
 const client = new MongoClient(uri);
-const dbName = 'myProject';
+const dbName = '4stargram';
 
 async function main() {
    await client.connect();
