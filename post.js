@@ -83,7 +83,7 @@ async function followUser(loggedId,target_ID){
     const result = await client.db(dbname).collection("follower").find(query).project(projection).toArray();
     //팔로우하기
     if(result.length<=0){
-        console.log("현재 Follower가 되어있지 않습니다. 팔로우 하시겠습니까?");
+        console.log("현재 팔로우가 되어있지 않습니다. 팔로우 하시겠습니까?");
         console.log("1. 예  2. 아니요");
         const doc = {"follower_userID":loggedId, "following_userID":target_ID,"state":1};
         let followcmd = await getUserInput();
@@ -93,14 +93,16 @@ async function followUser(loggedId,target_ID){
         console.log("팔로우가 완료되었습니다.");
     } else{
         //여기에 팔로우를 했다가 끊은 상태를 if문으로 추가
-
+        // if(query문에 state가 0 이다.)
         console.log("현재 팔로우 상태입니다. 팔로우를 끊으시겠습니까?");
         console.log("1. 예 2. 아니요");
         let dfollowcmd = await getUserInput();
         if(dfollowcmd==='1'){
             await client.db(dbname).collection("follower").updateOne(query,vals);
+            console.log("팔로우가 취소되었습니다.");
+        } else {
+
         }
-        console.log("팔로우가 취소되었습니다.");
     }
     // const update_result = await client.db(dbname).collection("follower").updateMany(query,vals);
 
