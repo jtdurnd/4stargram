@@ -8,7 +8,7 @@ async function main(){
 
   try {
       await client.connect();
-      await sortdocs(client, "4stargram", "users");
+      await showProfile(client, "4stargram", "users");
   } finally {
       await client.close();
   }
@@ -16,7 +16,7 @@ async function main(){
 
 main().catch(console.error);
 
-async function sortdocs(client, dbname, colname){
+async function showProfile(client, dbname, colname){
   var mysort = { userID: 1, password: 1, name: 1, introduction: 1, gender: 1, age: 1 };
   // var mysort = { userID: 1, password: 1, name: 1, gender: 1, age: 1, introduction: 1 };
 
