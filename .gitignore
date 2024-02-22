@@ -1,4 +1,8 @@
-node_modules/
-package.json
-package-lock.json
+node_modules
 .env
+connection.js
+insert.js
+package-lock.json
+package.json
+.gitignore
+
