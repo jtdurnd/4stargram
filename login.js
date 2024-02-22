@@ -7,18 +7,17 @@ const colName = "users";
 const uri = process.env.DB_URL;
 const client = new MongoClient(uri);
 
-let loggedInUser = "Unknown";
+let loggedInUser = {};
 
-async function main() {
+export async function login() {
   try {
     await client.connect();
-    console.log("Connected");
     loggedInUser = await getLoginInput();
-    if (!loggedInUser) {
+    if (loggedInUser[0] === undefined) {
       console.log("비밀번호 5회 오류. 프로그램 종료.");
       process.exit();
     } else {
-      console.log(`로그인 아이디: ${loggedInUser}`);
+      return loggedInUser;
     }
   } catch (e) {
     console.error(e.message);
@@ -33,10 +32,11 @@ let userID = "",
   password = "";
 
 async function getLoginInput() {
+  let foundUser;
   console.log("아이디를 입력해주세요.");
   userID = await getUserInput();
   while (true) {
-    const foundUser = await findUser(client, dbName, colName, userID);
+    foundUser = await findUser(client, dbName, colName, userID);
     if (!foundUser[0]) {
       console.log("존재하지 않는 아이디입니다. 아이디를 다시 입력해주세요.");
       userID = await getUserInput();
@@ -58,7 +58,7 @@ async function getLoginInput() {
   }
 
   if (check) {
-    return userID;
+    return foundUser;
   }
 
   return null;
@@ -78,7 +78,3 @@ async function checkPassword(client, dbName, colName, userID, password) {
   const check = await bcrypt.compare(password, result[0].password);
   return check;
 }
-
-main();
-
-export const getLoggedInUser = () => loggedInUser;

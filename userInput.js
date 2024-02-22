@@ -17,3 +17,6 @@ export async function getUserInput() {
     // });
   });
 }
+
+export const wait = (timeToDelay) =>
+  new Promise((resolve) => setTimeout(resolve, timeToDelay));
