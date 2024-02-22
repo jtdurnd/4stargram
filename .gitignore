@@ -3,6 +3,5 @@ node_modules
 connection.js
 insert.js
 package-lock.json
-package.json
 .gitignore
 
