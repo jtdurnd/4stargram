@@ -1,17 +1,16 @@
-const {MongoClient} = require('mongodb');
+// const {MongoClient} = require('mongodb');
+import {MongoClient} from "mongodb";
 
 async function main(){
-  const uri = process.env.DB_LOCAL_URL;
-  // const uri = process.env.DB_ATLAS_URL;
-  // console.log(uri);
+   const uri = process.env.DB_ATLAS_URL;
    const client = new MongoClient(uri);
+   const dbName = '4stargram';
 
    try {
       await client.connect();
-      await createdoc(client, "mydatabase", "products", {
-         "ProductID":1, "Name":"Laptop", "Price":25000
-      });
-       
+      await createProfile(client, "4stargram", "users", 
+      { "userID": "     ABC      ", "password": "     DEF      ", "name": "      GHI      ", "introduction": "    ABCDEF      ", "gender": "    G     ", "age": "    H     " });
+   
    } finally {
       await client.close();
    }
@@ -19,9 +18,9 @@ async function main(){
 
 main().catch(console.error);
 
-async function createdoc(client, dbname, colname, doc){
+async function createProfile(client, dbname, colname, profile){
    const dbobj = await client.db(dbname);
    const col = dbobj.collection(colname);
-   const result = await col.insertOne(doc);
+   const result = await col.insertOne(profile);
    console.log(`New document created with the following id: ${result.insertedId}`);
 };
