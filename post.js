@@ -62,7 +62,7 @@ async function showPost(target_Id, sw) {
         console.log("1.이전 포스트 2. 다음 포스트 3. 좋아요 0. 팔로우하기");
         }
         let cmd_menu = await getUserInput();
-        if (cmd_menu === '1') {
+        if (cmd_menu === '4') {
             // 댓글 영역
             console.log("HELLO");
         } else if (cmd_menu === '1') {
