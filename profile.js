@@ -17,8 +17,8 @@ async function main(){
 
   try {
       await client.connect();
-      const userID = await showProfile(client, "4stargram", "users", testUserId);
-      writerID = userID;
+      // const userID = await showProfile(client, "4stargram", "users", testUserId);
+      // writerID = userID;
       await getPostInput();
       const newPost = {writerID, content, like, imgSrc};
       // console.log(newPost);
