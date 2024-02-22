@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { getUserInput } from './userInput.js';
-
+import { table } from 'table';
 
 const uri = process.env.DB_ATLAS_URL;
 const client = new MongoClient(uri);
@@ -9,8 +9,8 @@ const dbname = "4stargram";
 async function main() {
     try {
         await client.connect();
-        await showPost("test", 0);
-        // await displayFeed();
+        // await showPost("test", 0);
+        await displayFeed();
     } finally {
         await client.close()
     }
@@ -22,7 +22,7 @@ writer_id 에 해당하는 포스트 출력함수
 target_Id로 값을 받아오고 sw가 1일 때는 target_id의 UserPage를
 sw가 0일 때는 MainFeed를 출력하게 설계 할 예정.
 */
-async function showPost(target_Id, sw) {
+export async function showPost(target_Id, sw) {
     console.log(target_Id);
     let query = "";
     let projection = { _id: 1, comment_id: 0 };
@@ -54,7 +54,8 @@ async function showPost(target_Id, sw) {
     while (true) {
         //현재 몇번째 post인지
         // console.log('postindex :>> ', postindex);
-        console.table(result[postindex]);
+        let ota = Object.entries(result[postindex]);
+        console.log(table(ota));
         if(sw===0){
             console.log("1.이전 포스트 2. 다음 포스트 3. 좋아요");
         }
@@ -100,14 +101,14 @@ async function showPost(target_Id, sw) {
 }
 
 // ID를 검색했을 때, 나오는 함수
-async function displayFeed() {
+export async function displayFeed() {
     console.log("검색할 친구의 ID를 입력하세요");
     let target_Id = await getUserInput();
     await showPost(target_Id, 1);
 }
 
 // ID를 검색해서 특정 User의 Page에 들어갔을 때, 해당 User를 팔로우할지를 결정하는 함수
-async function followUser(loggedId, target_ID) {
+export async function followUser(loggedId, target_ID) {
     // query문 : 검색한 ID를 내가 팔로우 중인 상태를 찾는 문
     let query = { $and: [{ follower_userID: target_ID }, { following_userID: loggedId }, { state: 1 }] };
 
