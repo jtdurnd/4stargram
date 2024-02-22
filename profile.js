@@ -17,15 +17,16 @@ async function main(){
 
   try {
       await client.connect();
-      // const userID = await showProfile(client, "4stargram", "users", testUserId);
-      // writerID = userID;
-      // await getPostInput();
-      // const newPost = {writerID, content, like, imgSrc};
+      const userID = await showProfile(client, "4stargram", "users", testUserId);
+      writerID = userID;
+      await getPostInput();
+      const newPost = {writerID, content, like, imgSrc};
       // console.log(newPost);
-      // await pushNewPost(client, dbName, "posts", newPost);
+      console.table(newPost);
+      await pushNewPost(client, dbName, "posts", newPost);
 
 
-      // await showFollowers(client, dbName, "followers", testUserId);
+      await showFollowers(client, dbName, "followers", testUserId);
       await showFollowings(client, dbName, "followers", testUserId);
 
   } finally {
@@ -38,10 +39,10 @@ main().catch(console.error);
 
 
 // 프로필 표시
-async function showProfile(client, dbname, colname, userID){
-  const result = await client.db(dbname).collection(colname).find({userID}).toArray();
-  return(result[0]._id);
-};
+// async function showProfile(client, dbname, colname, userID){
+//   const result = await client.db(dbname).collection(colname).find({userID}).toArray();
+//   return(result[0]._id);
+// };
 
 
 // 포스트 출력
