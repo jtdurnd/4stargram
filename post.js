@@ -108,14 +108,13 @@ async function displayFeed() {
 
 // ID를 검색해서 특정 User의 Page에 들어갔을 때, 해당 User를 팔로우할지를 결정하는 함수
 async function followUser(loggedId, target_ID) {
-
     // query문 : 검색한 ID를 내가 팔로우 중인 상태를 찾는 문
     let query = { $and: [{ follower_userID: target_ID }, { following_userID: loggedId }, { state: 1 }] };
 
     // 상태만 뽑기
     let projection = { state: true };
     
-    const result = await client.db(dbname).collection("follower").find(query).project(projection).toArray();
+    const result = await client.db(dbname).collection("followers").find(query).project(projection).toArray();
     //팔로우하기
     if (result.length <= 0) {
         console.log("현재 팔로우가 되어있지 않습니다. 팔로우 하시겠습니까?");
@@ -124,13 +123,13 @@ async function followUser(loggedId, target_ID) {
         if (followcmd === '1') {
             // 여기서 만약 follow했다가 끊었던 상태이면 update
             let check_query = {$and: [{ follower_userID: target_ID }, { following_userID: loggedId }, { state: 0 }] };
-            let check_first = await client.db(dbname).collection("follower").find(check_query).toArray();
+            let check_first = await client.db(dbname).collection("followers").find(check_query).toArray();
             if(check_first.length<=0){
             const doc = { "follower_userID": target_ID, "following_userID": loggedId, "state": 1 };
-            await client.db(dbname).collection("follower").insertOne(doc);
+            await client.db(dbname).collection("followers").insertOne(doc);
             }
             else {
-                await client.db(dbname).collection("follower").updateOne(check_query, {$set: {state: 1}});
+                await client.db(dbname).collection("followers").updateOne(check_query, {$set: {state: 1}});
             }
             console.log("팔로우가 완료되었습니다.");
         };
@@ -140,7 +139,7 @@ async function followUser(loggedId, target_ID) {
         let dfollowcmd = await getUserInput();
         if (dfollowcmd === '1') {
             let vals = { $set: { state: 0 } };
-            await client.db(dbname).collection("follower").updateOne(query, vals);
+            await client.db(dbname).collection("followers").updateOne(query, vals);
             console.log("팔로우가 취소되었습니다.");
         };
     }
