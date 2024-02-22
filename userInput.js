@@ -1,3 +1,4 @@
+
 import readline from 'readline';
 
 // input과 output을 사용하기 위해서 다음과 같이 정의
