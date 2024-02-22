@@ -100,7 +100,11 @@ export async function showPost(target_Id, sw) {
             let current_like = result[postindex].Like;
             let current_id = result[postindex]._id;
             let like_query = {_id : current_id};
+
+            // DB에 업데이트
             await client.db(dbname).collection("posts").updateOne(like_query,{$set: {Like: current_like+1}});
+            
+            // 실제 보여주는 Table에 업데이트
             result[postindex].Like= current_like+1;
             console.log("좋아요를 눌렀습니다.");
         } 
