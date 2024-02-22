@@ -38,6 +38,7 @@ async function main() {
                   "2. Post 작성",
                   "3. 팔로워 목록",
                   "4. 팔로잉 목록",
+                  "5. 뒤로 가기",
                 ],
               ];
               console.log(table(profileMenu));
@@ -54,16 +55,18 @@ async function main() {
                 await showFollowers(loggedInUser[0].userID);
               } else if (profileInput === "4") {
                 await showFollowings(loggedInUser[0].userID);
+              } else if (profileInput === "5") {
+                break;
               } else {
                 console.log("잘못된 입력입니다.");
               }
             }
           } else if (programIndex === "2") {
             // main
-            await showPost(loggedInUser[0].userID, 0);
+            await showPost(loggedInUser[0].userID, loggedInUser[0].userID, 0);
           } else if (programIndex === "3") {
             // search
-            await displayFeed();
+            await displayFeed(loggedInUser[0].userID);
           } else {
             console.log("잘못된 입력입니다.");
           }
