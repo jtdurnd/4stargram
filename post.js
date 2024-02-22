@@ -1,6 +1,10 @@
 import { MongoClient } from 'mongodb';
 import { getUserInput } from './userInput.js';
 import { table } from 'table';
+import asciify from 'asciify-image';
+
+
+
 
 const uri = process.env.DB_ATLAS_URL;
 const client = new MongoClient(uri);
@@ -25,7 +29,7 @@ sw가 0일 때는 MainFeed를 출력하게 설계 할 예정.
 export async function showPost(target_Id, sw) {
     console.log(target_Id);
     let query = "";
-    let projection = { _id: 1, comment_id: 0 };
+    let projection = { _id: 0, comment_id: 0 };
     let result = "";
     if (sw === 1) {
         //query문을 수정해서 메인 Feed 또는 UserPage를 구분시킬 수 있을 듯.
@@ -51,10 +55,18 @@ export async function showPost(target_Id, sw) {
     let postindex = 0;
     //포스트 개수
     // console.log('result.length :>> ', result.length);
+    for(let a = 0; a < result.length; a++){
+        await imgSrctoAscii(a,result);
+    }
+    
     while (true) {
         //현재 몇번째 post인지
         // console.log('postindex :>> ', postindex);
+        await wait(650);
+
         let ota = Object.entries(result[postindex]);
+
+        console.clear();
         console.log(table(ota));
         if(sw===0){
             console.log("1.이전 포스트 2. 다음 포스트 3. 좋아요");
@@ -146,4 +158,19 @@ export async function followUser(loggedId, target_ID) {
     }
 }
 
+export async function imgSrctoAscii(a,result){
+    var options = {
+        fit: 'box',
+        width: 20,
+        height: 20
+    }
+
+    await asciify(result[a].imgSrc, options, function (err, asciified) {
+                if (err) throw err;
+                result[a].imgSrc = asciified;
+            });
+}
+
+const wait = (timeToDelay) =>
+new Promise((resolve)=> setTimeout(resolve,timeToDelay));
 main();
