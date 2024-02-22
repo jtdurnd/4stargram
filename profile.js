@@ -2,6 +2,9 @@ import { login } from "./login.js";
 import { getUserInput } from "./userInput.js";
 import { MongoClient } from "mongodb";
 
+let content = "",
+  imgSrc = "";
+
 // 메인 db 연결
 export async function post(writerID) {
   const uri = process.env.DB_URL;
