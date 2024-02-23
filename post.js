@@ -28,7 +28,7 @@ export async function showPost(target_Id, loggedId, sw) {
   let result = "";
   if (sw === 1) {
     //query문을 수정해서 메인 Feed 또는 UserPage를 구분시킬 수 있을 듯.
-    query = { writer_id: `${target_Id}` };
+    query = { writerID: `${target_Id}` };
     result = await client
       .db(dbname)
       .collection("posts")
@@ -79,10 +79,10 @@ export async function showPost(target_Id, loggedId, sw) {
       console.clear();
       console.log(table(ota));
       if (sw === 0) {
-        console.log("1.이전 포스트 2. 다음 포스트 3. 좋아요 4. 종료");
+        console.log("1.이전 포스트 2. 다음 포스트 3. 좋아요 4. 메인 페이지");
       } else {
         console.log(
-          "1.이전 포스트 2. 다음 포스트 3. 좋아요 4. 종료 0. 팔로우하기"
+          "1.이전 포스트 2. 다음 포스트 3. 좋아요 4. 메인 페이지 0. 팔로우하기"
         );
       }
       let cmd_menu = await getUserInput();
@@ -106,16 +106,16 @@ export async function showPost(target_Id, loggedId, sw) {
         } //좋아요 영역
       } else if (cmd_menu === "3") {
         // console.log(result[postindex]._id);
-        let current_like = result[postindex].Like;
+        let current_like = result[postindex].like;
         let current_id = result[postindex]._id;
         let like_query = { _id: current_id }; // DB에 업데이트
 
         await client
           .db(dbname)
           .collection("posts")
-          .updateOne(like_query, { $set: { Like: current_like + 1 } }); // 실제 보여주는 Table에 업데이트
+          .updateOne(like_query, { $set: { like: current_like + 1 } }); // 실제 보여주는 Table에 업데이트
 
-        result[postindex].Like = current_like + 1;
+        result[postindex].like = current_like + 1;
         console.log("좋아요를 눌렀습니다.");
       } else if (cmd_menu === "0") {
         console.log("Follow\n"); // 여기서 "test"부분을 loggedID정보로 바꿔야함.
@@ -206,7 +206,9 @@ export async function imgSrctoAscii(a, result) {
   };
 
   await asciify(result[a].imgSrc, options, function (err, asciified) {
-    if (err) throw err;
+    if (err) {
+      result[a].imgSrc = "";
+    }
     result[a].imgSrc = asciified;
   });
 }
