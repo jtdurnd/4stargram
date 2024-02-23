@@ -53,6 +53,8 @@ export async function showFollowings(loginUser) {
   if (result[0] === undefined) {
     console.log("내가 팔로우 하는 유저가 없습니다.");
   } else {
+    console.log(`내가 팔로우하는 유저: ${result.length}명`);
+    console.log("");
     result.forEach((element) => {
       console.log(`- ${element.follower_userID}`);
     });
@@ -75,6 +77,8 @@ export async function showFollowers(loginUser) {
   if (result[0] === undefined) {
     console.log("나를 팔로우 하는 사람이 없습니다.");
   } else {
+    console.log(`나를 팔로우하는 유저: ${result.length}명`);
+    console.log("");
     result.forEach((element) => {
       console.log(`- ${element.following_userID}`);
     });

@@ -24,7 +24,11 @@ async function main() {
         while (true) {
           // 1. 4stagram 접속
           const programMenu = [
-            [`1. ${loggedInUser[0].name}`, "2. 메인", "3. 유저 검색"],
+            [
+              `1. ${loggedInUser[0].name}`,
+              "2. 팔로잉 유저의 피드",
+              "3. 유저 검색",
+            ],
           ];
           console.log(table(programMenu));
 
@@ -38,7 +42,7 @@ async function main() {
                   "2. Post 작성",
                   "3. 팔로워 목록",
                   "4. 팔로잉 목록",
-                  "5. 뒤로 가기",
+                  "5. 메인 페이지",
                 ],
               ];
               console.log(table(profileMenu));
